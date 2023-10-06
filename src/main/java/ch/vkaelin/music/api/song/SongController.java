@@ -61,7 +61,7 @@ public class SongController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<SearchedSongDto> searchArtists(@RequestBody Optional<String> search) {
+    public List<SearchedSongDto> searchSongs(@RequestBody Optional<String> search) {
         List<Song> songs = songService.searchSongs(search.orElse(""));
         return SearchedSongDto.from(songs);
     }

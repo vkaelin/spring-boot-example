@@ -32,7 +32,9 @@ public class SecurityConfiguration {
                         .permitAll()
                         .requestMatchers(
                                 "/api/v1/artists",
-                                "/api/v1/auth/**"
+                                "/api/v1/auth/**",
+                                "/swagger-ui/**",
+                                "/api-docs/**"
                         )
                         .permitAll()
                         .anyRequest()
