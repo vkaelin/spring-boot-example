@@ -1,6 +1,6 @@
 package ch.vkaelin.music.api.auth;
 
-import lombok.*;
+import lombok.Value;
 
 @Value
 public class LoginRequestDto {

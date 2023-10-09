@@ -2,10 +2,13 @@ package ch.vkaelin.music.persistence.artist;
 
 import ch.vkaelin.music.domain.artist.Artist;
 import ch.vkaelin.music.persistence.AbstractEntity;
-import ch.vkaelin.music.persistence.song.SongEntity;
 import ch.vkaelin.music.persistence.user.UserEntity;
+import ch.vkaelin.music.persistence.song.SongEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;

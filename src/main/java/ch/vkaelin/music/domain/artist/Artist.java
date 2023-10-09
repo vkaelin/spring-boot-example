@@ -2,7 +2,9 @@ package ch.vkaelin.music.domain.artist;
 
 import ch.vkaelin.music.domain.song.Song;
 import ch.vkaelin.music.domain.user.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 

@@ -19,7 +19,7 @@ public class SongService {
     private final SongStorage songStorage;
     private final FileAdapter fileAdapter;
 
-    public void createSong(NewSongRequestDto dto, Artist artist)
+    public Song createSong(NewSongRequestDto dto, Artist artist)
             throws FileAdapterException, InvalidFileTypeException {
         if (!Objects.equals(dto.getFile().getContentType(), "audio/mpeg")) {
             throw new InvalidFileTypeException("File must be a mp3 file");
@@ -34,7 +34,8 @@ public class SongService {
                 .file(fileName)
                 .artist(artist)
                 .build();
-        songStorage.save(song);
+
+        return songStorage.save(song);
     }
 
     public Song findById(Integer id) throws SongNotFoundException {

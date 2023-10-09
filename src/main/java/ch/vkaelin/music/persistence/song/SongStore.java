@@ -14,9 +14,9 @@ public class SongStore implements SongStorage {
     private final SongRepository songRepository;
 
     @Override
-    public void save(Song song) {
+    public Song save(Song song) {
         SongEntity songEntity = SongEntity.from(song);
-        songRepository.save(songEntity);
+        return songRepository.save(songEntity).fromThis(false);
     }
 
     @Override

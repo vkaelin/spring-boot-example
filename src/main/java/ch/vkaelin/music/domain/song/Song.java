@@ -1,7 +1,6 @@
 package ch.vkaelin.music.domain.song;
 
 import ch.vkaelin.music.domain.artist.Artist;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
