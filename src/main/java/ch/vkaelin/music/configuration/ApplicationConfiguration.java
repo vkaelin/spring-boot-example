@@ -48,6 +48,10 @@ public class ApplicationConfiguration {
 
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository) {
+        if (userRepository.findByUsername("admin").isPresent()) {
+            return args -> {};
+        }
+
         return args -> userRepository.save(
                 UserEntity.builder()
                         .username("admin")

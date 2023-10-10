@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ArtistRepository extends JpaRepository<ArtistEntity, Integer> {
     Optional<ArtistEntity> findByUserUsername(String username);
 
-    @Query("SELECT a FROM ArtistEntity a JOIN a.songs s WHERE a.artistName ILIKE %?1%"
+    @Query("SELECT a FROM ArtistEntity a LEFT JOIN a.songs s WHERE a.artistName ILIKE %?1%"
             + " OR s.genre ILIKE %?1%")
     List<ArtistEntity> search(String keyword);
 }
