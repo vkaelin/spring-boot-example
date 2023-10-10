@@ -23,6 +23,7 @@ import java.util.Optional;
 public class SongController {
     private final ArtistService artistService;
     private final SongService songService;
+    private final SongMapper songMapper;
 
     @PostMapping()
     @Secured("ARTIST")
@@ -33,13 +34,13 @@ public class SongController {
     ) {
         String username = userDetails.getUsername();
         Artist artist = artistService.findByUsername(username);
-        Song song = songService.createSong(request, artist);
+        Song song = songService.createSong(songMapper.toNewSongRequest(request), artist);
 
         return "Song created with id " + song.getId();
     }
 
     @GetMapping("{songId}")
-    public ResponseEntity<?> downloadSong(@PathVariable("songId") Integer id) {
+    public ResponseEntity<InputStreamResource> downloadSong(@PathVariable("songId") Integer id) {
         Song song = songService.findById(id);
         InputStreamResource resource = new InputStreamResource(songService.loadSong(song.getFile()));
 
@@ -53,6 +54,6 @@ public class SongController {
     @ResponseStatus(HttpStatus.OK)
     public List<SearchedSongDto> searchSongs(@RequestBody Optional<String> search) {
         List<Song> songs = songService.searchSongs(search.orElse(""));
-        return SearchedSongDto.from(songs);
+        return songMapper.toSearchSongDto(songs);
     }
 }

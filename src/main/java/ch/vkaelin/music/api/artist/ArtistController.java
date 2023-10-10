@@ -1,6 +1,5 @@
 package ch.vkaelin.music.api.artist;
 
-import ch.vkaelin.music.domain.artist.Artist;
 import ch.vkaelin.music.domain.artist.ArtistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,13 +13,14 @@ import java.util.Optional;
 @RequestMapping("api/v1/artists")
 @RequiredArgsConstructor
 public class ArtistController {
+    private final ArtistMapper mapper;
     private final ArtistService service;
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<SearchedArtistDto> searchArtists(@RequestBody Optional<String> search) {
-        List<Artist> artists = service.searchArtists(search.orElse(""));
-        return SearchedArtistDto.from(artists);
+        return mapper.toSearchedArtistDto(
+                service.searchArtists(search.orElse(""))
+        );
     }
 
     @Secured("ADMIN")

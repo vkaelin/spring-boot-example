@@ -1,9 +1,9 @@
-package ch.vkaelin.music.api.auth;
+package ch.vkaelin.music.domain.auth;
 
 import lombok.Value;
 
 @Value
-public class SignUpRequestDto {
+public class SignUpRequest {
     String username;
     String password;
     String artistName;

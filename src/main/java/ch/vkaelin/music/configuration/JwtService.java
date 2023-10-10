@@ -1,5 +1,6 @@
 package ch.vkaelin.music.configuration;
 
+import ch.vkaelin.music.domain.auth.JwtAdapter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtService implements JwtAdapter {
     private static final String SECRET_KEY = "da11bb2a86a7b7cb2a6aa3e2423a749ba5f4e5f9e26f5d3430af4518d40757b0";
 
     public String extractUsername(String token) {

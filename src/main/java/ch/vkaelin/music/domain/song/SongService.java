@@ -1,6 +1,5 @@
 package ch.vkaelin.music.domain.song;
 
-import ch.vkaelin.music.api.song.NewSongRequestDto;
 import ch.vkaelin.music.domain.artist.Artist;
 import ch.vkaelin.music.domain.file.FileAdapter;
 import ch.vkaelin.music.domain.file.FileAdapterException;
@@ -19,18 +18,18 @@ public class SongService {
     private final SongStorage songStorage;
     private final FileAdapter fileAdapter;
 
-    public Song createSong(NewSongRequestDto dto, Artist artist)
+    public Song createSong(NewSongRequest request, Artist artist)
             throws FileAdapterException, InvalidFileTypeException {
-        if (!Objects.equals(dto.getFile().getContentType(), "audio/mpeg")) {
+        if (!Objects.equals(request.getFile().getContentType(), "audio/mpeg")) {
             throw new InvalidFileTypeException("File must be a mp3 file");
         }
 
         String fileName = UUID.randomUUID() + ".mp3";
-        fileAdapter.save(fileName, dto.getFileData());
+        fileAdapter.save(fileName, fileAdapter.getStream(request.getFile()));
 
         Song song = Song.builder()
-                .name(dto.getName())
-                .genre(dto.getGenre())
+                .name(request.getName())
+                .genre(request.getGenre())
                 .file(fileName)
                 .artist(artist)
                 .build();
