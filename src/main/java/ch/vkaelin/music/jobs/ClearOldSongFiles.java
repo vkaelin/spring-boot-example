@@ -29,6 +29,10 @@ public class ClearOldSongFiles {
                 .toList();
         filesToRemove.forEach(fileAdapter::delete);
 
-        log.info("Removed {} files from a total of {}.", filesToRemove.size(), fileNames.size());
+        if (filesToRemove.isEmpty()) {
+            log.info("No files to remove.");
+        } else {
+            log.info("Removed {} files from a total of {}.", filesToRemove.size(), fileNames.size());
+        }
     }
 }
