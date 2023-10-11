@@ -36,6 +36,7 @@ Want to go further?
 - Database used: PostgreSQL
 - Spring Security with JWT, using a custom filter to check the token
 - I didn't implement the `/logout` endpoint, because JWT is stateless, and token isn't stored anywhere
+- JobRunr job executed every 5 minutes to delete song files from disk that are not in the database anymore
 
 ## How to run
 
@@ -60,6 +61,7 @@ mvn spring-boot:run
 Then, you can access the API in your browser:
 
 - Go to [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) to see the API documentation
+- Go to [localhost:8000/dashboard/overview](http://localhost:8000/dashboard/overview) to access the JobRunr dashboard
 
 > An admin user is created by default:
 > - `admin` / `password`
