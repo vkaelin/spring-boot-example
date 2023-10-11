@@ -1,3 +1,7 @@
+org:
+  jobrunr:
+    background-job-server:
+      enabled: true
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5332/music

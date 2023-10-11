@@ -3,6 +3,7 @@ services:
     container_name: postgres
     image: postgres
     environment:
+      POSTGRES_DB: music
       POSTGRES_USER: vkaelin
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
@@ -13,10 +14,27 @@ services:
     networks:
       - db
     restart: unless-stopped
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    restart: always
+    ports:
+      # Web interface
+      - '5000:80'
+      # SMTP server
+      - '2525:25'
+      # IMAP server
+      - '1443:143'
+    volumes:
+      - smtp4dev-data:/smtp4dev
+    environment:
+      # Specifies the server hostname. Used in auto-generated TLS certificate if enabled.
+      - ServerOptions__HostName=smtp4dev
 
+      # Other options: https://github.com/rnwood/smtp4dev/blob/master/docker-compose.yml
 networks:
   db:
     driver: bridge
 
 volumes:
   db:
+  smtp4dev-data:

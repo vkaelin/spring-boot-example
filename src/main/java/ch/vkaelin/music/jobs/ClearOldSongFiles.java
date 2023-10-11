@@ -12,7 +12,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ClearOldSongFiles {
+public class ClearOldSongFiles implements JobAdapter {
     private final SongRepository songRepository;
     private final FileAdapter fileAdapter;
 
@@ -20,6 +20,7 @@ public class ClearOldSongFiles {
         return songs.stream().noneMatch(song -> song.getFile().equals(toFind));
     }
 
+    @Override
     public void run() {
         List<SongEntity> songs = songRepository.findAll();
         List<String> fileNames = fileAdapter.listFiles();

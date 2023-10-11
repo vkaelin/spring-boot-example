@@ -44,6 +44,13 @@
 			<version>12.4</version>
 		</dependency>
 
+		<!-- Emails -->
+		<dependency>
+			<groupId>org.eclipse.angus</groupId>
+			<artifactId>angus-mail</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+
         <!-- Utils -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
