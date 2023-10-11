@@ -73,4 +73,5 @@ Then, you can access the API in your browser:
 ![Database schema](./docs/db-diagram-music-library.png)
 
 ## More information
-- Songs files are stored in a `./songs` folder (gitignored)
+- Songs files are stored in a `./songs` folder (gitignored), this is configurable in the `application.yml` file
+- Other information can be configured in the `application.yml` file, for example the jwt token secret or the expiration time

@@ -1,3 +1,9 @@
+config:
+  file:
+    base-path: "./songs"
+  jwt:
+    expiration: 86400000
+    secret-key: "da11bb2a86a7b7cb2a6aa3e2423a749ba5f4e5f9e26f5d3430af4518d40757b0"
 org:
   jobrunr:
     background-job-server:
