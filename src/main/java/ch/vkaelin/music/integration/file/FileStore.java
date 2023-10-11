@@ -11,11 +11,25 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Component
 @Slf4j
 public class FileStore implements FileAdapter {
     private static final String BASE_PATH = "./songs";
+
+    @Override
+    public List<String> listFiles() throws FileAdapterException {
+        try (var files = Files.walk(Paths.get(BASE_PATH))) {
+            return files
+                    .filter(Files::isRegularFile)
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .toList();
+        } catch (IOException e) {
+            throw new FileAdapterException("Could not list files", e);
+        }
+    }
 
     @Override
     public InputStream getStream(InputStreamSource file) throws FileAdapterException {
