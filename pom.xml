@@ -32,6 +32,18 @@
 			<version>6.2.3</version>
 		</dependency>
 
+		<!-- Feign -->
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-core</artifactId>
+			<version>12.4</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-gson</artifactId>
+			<version>12.4</version>
+		</dependency>
+
         <!-- Utils -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>

@@ -37,6 +37,7 @@ Want to go further?
 - Spring Security with JWT, using a custom filter to check the token
 - I didn't implement the `/logout` endpoint, because JWT is stateless, and token isn't stored anywhere
 - JobRunr job executed every 5 minutes to delete song files from disk that are not in the database anymore
+- OpenFeign to call the [JokeAPI](https://v2.jokeapi.dev/) to send a random joke every time a user register or login
 
 ## How to run
 
