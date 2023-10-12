@@ -53,6 +53,6 @@ class AuthenticationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(request))
                 )
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 }

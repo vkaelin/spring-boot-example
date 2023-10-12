@@ -1,80 +1,48 @@
 package ch.vkaelin.music.configuration;
 
 import ch.vkaelin.music.domain.auth.JwtAdapter;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
+import java.time.Instant;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService implements JwtAdapter {
-    @Value("${config.jwt.secret-key}")
-    private String secretKey;
-
     @Value("${config.jwt.expiration}")
-    private Integer expiration;
+    private Long expiration;
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
+    private final JwtEncoder encoder;
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
+    @Override
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return this.encoder.encode(
+                JwtEncoderParameters.from(getClaims(userDetails))
+        ).getTokenValue();
     }
 
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
+    private String getScope(UserDetails userDetails) {
+        return userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(" "));
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String userEmail = extractUsername(token);
-        return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
-    }
+    private JwtClaimsSet getClaims(UserDetails userDetails) {
+        Instant now = Instant.now();
 
-    public boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(expiration))
+                .subject(userDetails.getUsername())
+                .claim("scope", getScope(userDetails))
+                .build();
     }
 }

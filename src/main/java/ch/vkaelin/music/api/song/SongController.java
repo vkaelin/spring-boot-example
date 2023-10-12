@@ -9,9 +9,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,14 +25,13 @@ public class SongController {
     private final SongMapper songMapper;
 
     @PostMapping()
-    @Secured("ARTIST")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ARTIST')")
     public String uploadSong(
             @ModelAttribute NewSongRequestDto request,
-            @AuthenticationPrincipal UserDetails userDetails
+            Authentication authentication
     ) {
-        String username = userDetails.getUsername();
-        Artist artist = artistService.findByUsername(username);
+        Artist artist = artistService.findByUsername(authentication.getName());
         Song song = songService.createSong(songMapper.toNewSongRequest(request), artist);
 
         return "Song created with id " + song.getId();
