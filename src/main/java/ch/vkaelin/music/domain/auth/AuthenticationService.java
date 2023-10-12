@@ -32,7 +32,12 @@ public class AuthenticationService {
                 .user(user)
                 .build();
 
-        artistStorage.save(artist);
+        try {
+            artistStorage.save(artist);
+        } catch (Exception e) {
+            throw new UsernameTakenException();
+        }
+
         return jwtService.generateToken(artist.getUser());
     }
 
