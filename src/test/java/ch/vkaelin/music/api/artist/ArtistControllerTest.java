@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-public class ArtistControllerTest {
+class ArtistControllerTest {
     @Autowired
     private ArtistRepository artistRepository;
 
@@ -66,7 +66,7 @@ public class ArtistControllerTest {
     }
 
     @Test
-    public void shouldGetArtists() throws Exception {
+    void shouldGetArtists() throws Exception {
         MvcResult result = mvc.perform(get("/api/v1/artists"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -77,14 +77,14 @@ public class ArtistControllerTest {
 
         assertNotNull(artists);
         assertEquals(artists.size(), artistRepository.findAll().size());
-        assertNotEquals(artists.size(), 0);
+        assertNotEquals(0, artists.size());
     }
 
     @Test
     @WithMockUser(username = "admin", authorities = {"ADMIN"})
-    public void shouldDeleteArtist() throws Exception {
+    void shouldDeleteArtist() throws Exception {
         List<ArtistEntity> artists = artistRepository.findAll();
-        assertEquals(artists.size(), 1);
+        assertEquals(1, artists.size());
 
         Integer artistId = artists.get(0).getId();
         mvc.perform(delete("/api/v1/artists/" + artistId))
@@ -92,14 +92,14 @@ public class ArtistControllerTest {
                 .andReturn();
 
         artists = artistRepository.findAll();
-        assertEquals(artists.size(), 0);
+        assertEquals(0, artists.size());
     }
 
     @Test
     @WithMockUser(username = "bob", authorities = {"ARTIST"})
-    public void shouldNotDeleteArtist() throws Exception {
+    void shouldNotDeleteArtist() throws Exception {
         List<ArtistEntity> artists = artistRepository.findAll();
-        assertEquals(artists.size(), 1);
+        assertEquals(1, artists.size());
 
         Integer artistId = artists.get(0).getId();
         mvc.perform(delete("/api/v1/artists/" + artistId))
@@ -107,6 +107,6 @@ public class ArtistControllerTest {
                 .andReturn();
 
         artists = artistRepository.findAll();
-        assertEquals(artists.size(), 1);
+        assertEquals(1, artists.size());
     }
 }

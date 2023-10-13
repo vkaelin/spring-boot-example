@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class AuthenticationControllerTest {
+class AuthenticationControllerTest {
     @Autowired
     private WebApplicationContext context;
 
@@ -33,7 +33,7 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void shouldLoginSuccessfully() throws Exception {
+    void shouldLoginSuccessfully() throws Exception {
         LoginRequestDto request = new LoginRequestDto("admin", "password");
 
         mvc.perform(post("/api/v1/auth/login")
@@ -46,13 +46,13 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void shouldNotLogin() throws Exception {
+    void shouldNotLogin() throws Exception {
         LoginRequestDto request = new LoginRequestDto("admin", "wrong-password");
 
         mvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(request))
                 )
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 }

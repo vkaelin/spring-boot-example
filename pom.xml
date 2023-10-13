@@ -25,6 +25,32 @@
 			<version>2.2.0</version>
 		</dependency>
 
+		<!-- JobRunr -->
+		<dependency>
+			<groupId>org.jobrunr</groupId>
+			<artifactId>jobrunr-spring-boot-3-starter</artifactId>
+			<version>6.2.3</version>
+		</dependency>
+
+		<!-- Feign -->
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-core</artifactId>
+			<version>12.4</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-gson</artifactId>
+			<version>12.4</version>
+		</dependency>
+
+		<!-- Emails -->
+		<dependency>
+			<groupId>org.eclipse.angus</groupId>
+			<artifactId>angus-mail</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+
         <!-- Utils -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -36,23 +62,6 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.30</version>
 			<scope>provided</scope>
-		</dependency>
-
-        <!-- JWT -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-api</artifactId>
-			<version>0.11.5</version>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-impl</artifactId>
-			<version>0.11.5</version>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId>
-			<version>0.11.5</version>
 		</dependency>
 
         <!-- Postgres -->
@@ -80,6 +89,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
 
 		<!-- Tests -->
 		<dependency>
@@ -91,6 +104,12 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit-junit5</artifactId>
+			<version>1.0.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

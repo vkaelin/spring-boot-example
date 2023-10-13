@@ -9,9 +9,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,23 +22,23 @@ import java.util.Optional;
 public class SongController {
     private final ArtistService artistService;
     private final SongService songService;
+    private final SongMapper songMapper;
 
     @PostMapping()
-    @Secured("ARTIST")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ARTIST')")
     public String uploadSong(
             @ModelAttribute NewSongRequestDto request,
-            @AuthenticationPrincipal UserDetails userDetails
+            Authentication authentication
     ) {
-        String username = userDetails.getUsername();
-        Artist artist = artistService.findByUsername(username);
-        Song song = songService.createSong(request, artist);
+        Artist artist = artistService.findByUsername(authentication.getName());
+        Song song = songService.createSong(songMapper.toNewSongRequest(request), artist);
 
         return "Song created with id " + song.getId();
     }
 
     @GetMapping("{songId}")
-    public ResponseEntity<?> downloadSong(@PathVariable("songId") Integer id) {
+    public ResponseEntity<InputStreamResource> downloadSong(@PathVariable("songId") Integer id) {
         Song song = songService.findById(id);
         InputStreamResource resource = new InputStreamResource(songService.loadSong(song.getFile()));
 
@@ -53,6 +52,6 @@ public class SongController {
     @ResponseStatus(HttpStatus.OK)
     public List<SearchedSongDto> searchSongs(@RequestBody Optional<String> search) {
         List<Song> songs = songService.searchSongs(search.orElse(""));
-        return SearchedSongDto.from(songs);
+        return songMapper.toSearchSongDto(songs);
     }
 }

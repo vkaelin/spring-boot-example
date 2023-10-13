@@ -29,13 +29,15 @@ Want to go further?
 - Send an email with Java Mail on a SMTP server for dev, smtp4dev: https://github.com/rnwood/smtp4dev
 - Program a background job with JobRunr: https://www.jobrunr.io/en/
 
-
 # What I did
 > Valentin Kaelin - 10/10/2023
 
 - Database used: PostgreSQL
-- Spring Security with JWT, using a custom filter to check the token
+- Spring Security with JWT, using the built-in implementation in `oauth2-resource-server`
 - I didn't implement the `/logout` endpoint, because JWT is stateless, and token isn't stored anywhere
+- JobRunr job executed every 5 minutes to delete song files from disk that are not in the database anymore
+- OpenFeign to call the [JokeAPI](https://v2.jokeapi.dev/) to send a random joke every time a user register or login
+- Java Mail to send an email to a fake admin when a new user register (in a background job)
 
 ## How to run
 
@@ -47,7 +49,7 @@ Want to go further?
 ### Run the project
 
 ```bash
-# Start the docker container for the PostgreSQL database
+# Start the docker container for the PostgreSQL database and the smtp4dev server
 docker-compose up -d
 
 # Install all dependencies and build the project
@@ -60,6 +62,8 @@ mvn spring-boot:run
 Then, you can access the API in your browser:
 
 - Go to [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) to see the API documentation
+- Go to [localhost:8000/dashboard/overview](http://localhost:8000/dashboard/overview) to access the JobRunr dashboard
+- Go to [localhost:5000](http://localhost:5000) to access the smtp4dev server
 
 > An admin user is created by default:
 > - `admin` / `password`
@@ -69,4 +73,5 @@ Then, you can access the API in your browser:
 ![Database schema](./docs/db-diagram-music-library.png)
 
 ## More information
-- Songs files are stored in a `./songs` folder (gitignored)
+- Songs files are stored in a `./songs` folder (gitignored), this is configurable in the `application.yml` file
+- Other information can be configured in the `application.yml` file under the `config` root key, for example the jwt key paths or the expiration time

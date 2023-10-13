@@ -1,9 +1,5 @@
 package ch.vkaelin.music.domain.auth;
 
-import ch.vkaelin.music.api.auth.LoginRequestDto;
-import ch.vkaelin.music.api.auth.LoginResponseDto;
-import ch.vkaelin.music.api.auth.SignUpRequestDto;
-import ch.vkaelin.music.configuration.JwtService;
 import ch.vkaelin.music.domain.artist.Artist;
 import ch.vkaelin.music.domain.artist.ArtistStorage;
 import ch.vkaelin.music.domain.user.Role;
@@ -21,10 +17,10 @@ public class AuthenticationService {
     private final ArtistStorage artistStorage;
     private final UserStorage userStorage;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtAdapter jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public LoginResponseDto register(SignUpRequestDto request) {
+    public String register(SignUpRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -36,14 +32,16 @@ public class AuthenticationService {
                 .user(user)
                 .build();
 
-        artistStorage.save(artist);
-        String jwtToken = jwtService.generateToken(user);
-        return LoginResponseDto.builder()
-                .token(jwtToken)
-                .build();
+        try {
+            artistStorage.save(artist);
+        } catch (Exception e) {
+            throw new UsernameTakenException();
+        }
+
+        return jwtService.generateToken(artist.getUser());
     }
 
-    public LoginResponseDto authenticate(LoginRequestDto request) {
+    public String authenticate(AuthRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -52,9 +50,6 @@ public class AuthenticationService {
         );
 
         User user = userStorage.findByUsername(request.getUsername()).orElseThrow();
-        String jwtToken = jwtService.generateToken(user);
-        return LoginResponseDto.builder()
-                .token(jwtToken)
-                .build();
+        return jwtService.generateToken(user);
     }
 }

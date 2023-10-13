@@ -2,8 +2,8 @@ package ch.vkaelin.music.persistence.artist;
 
 import ch.vkaelin.music.domain.artist.Artist;
 import ch.vkaelin.music.persistence.AbstractEntity;
-import ch.vkaelin.music.persistence.user.UserEntity;
 import ch.vkaelin.music.persistence.song.SongEntity;
+import ch.vkaelin.music.persistence.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

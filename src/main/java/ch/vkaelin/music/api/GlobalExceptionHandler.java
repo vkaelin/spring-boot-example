@@ -1,6 +1,7 @@
 package ch.vkaelin.music.api;
 
 import ch.vkaelin.music.domain.artist.ArtistNotFoundException;
+import ch.vkaelin.music.domain.auth.UsernameTakenException;
 import ch.vkaelin.music.domain.file.FileAdapterException;
 import ch.vkaelin.music.domain.file.InvalidFileTypeException;
 import ch.vkaelin.music.domain.song.SongNotFoundException;
@@ -30,5 +31,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidFileTypeException.class)
     public ResponseEntity<Object> handleInvalidFileTypeException(InvalidFileTypeException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(UsernameTakenException.class)
+    public ResponseEntity<Object> handleUsernameTakenException(UsernameTakenException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
