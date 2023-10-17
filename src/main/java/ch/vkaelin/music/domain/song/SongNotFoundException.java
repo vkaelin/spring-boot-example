@@ -1,6 +1,8 @@
 package ch.vkaelin.music.domain.song;
 
-public class SongNotFoundException extends RuntimeException {
+import ch.vkaelin.music.domain.ResourceNotFoundException;
+
+public class SongNotFoundException extends ResourceNotFoundException {
     public SongNotFoundException() {
         super("Song not found");
     }
