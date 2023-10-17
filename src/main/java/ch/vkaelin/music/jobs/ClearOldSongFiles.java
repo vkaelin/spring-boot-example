@@ -5,6 +5,8 @@ import ch.vkaelin.music.persistence.song.SongEntity;
 import ch.vkaelin.music.persistence.song.SongRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jobrunr.jobs.annotations.Job;
+import org.jobrunr.spring.annotations.Recurring;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,6 +23,8 @@ public class ClearOldSongFiles implements JobAdapter {
     }
 
     @Override
+    @Recurring(id = "clear-old-song-files", cron = "${config.jobs.clear-songs.cron}")
+    @Job(name = "Clear old song files from disk")
     public void run() {
         List<SongEntity> songs = songRepository.findAll();
         List<String> fileNames = fileAdapter.listFiles();

@@ -74,4 +74,4 @@ Then, you can access the API in your browser:
 
 ## More information
 - Songs files are stored in a `./songs` folder (gitignored), this is configurable in the `application.yml` file
-- Other information can be configured in the `application.yml` file under the `config` root key, for example the jwt key paths or the expiration time
+- Other information can be configured in the `application.yml` file under the `config` root key, for example the jwt key paths, its expiration time or the cron expressions for the JobRunr jobs

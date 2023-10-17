@@ -1,6 +1,9 @@
 config:
   file:
     base-path: "./songs"
+  jobs:
+    clear-songs:
+      cron: "*/5 * * * *" # every 5 minutes, see https://crontab.guru
   jwt:
     private:
       key: classpath:app.key
@@ -10,6 +13,8 @@ config:
 org:
   jobrunr:
     background-job-server:
+      enabled: true
+    dashboard:
       enabled: true
 spring:
   datasource:
