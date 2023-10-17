@@ -1,7 +1,6 @@
 package ch.vkaelin.music.jobs;
 
 import ch.vkaelin.music.domain.file.FileAdapter;
-import ch.vkaelin.music.persistence.song.SongEntity;
 import ch.vkaelin.music.persistence.song.SongRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +17,25 @@ public class ClearOldSongFiles implements JobAdapter {
     private final SongRepository songRepository;
     private final FileAdapter fileAdapter;
 
-    private boolean isFileUnused(String toFind, List<SongEntity> songs) {
-        return songs.stream().noneMatch(song -> song.getFile().equals(toFind));
-    }
-
     @Override
     @Recurring(id = "clear-old-song-files", cron = "${config.jobs.clear-songs.cron}")
     @Job(name = "Clear old song files from disk")
     public void run() {
-        List<SongEntity> songs = songRepository.findAll();
         List<String> fileNames = fileAdapter.listFiles();
+        int nbDeleted = 0;
 
-        List<String> filesToRemove = fileNames.stream()
-                .filter(fileName -> isFileUnused(fileName, songs))
-                .toList();
-        filesToRemove.forEach(fileAdapter::delete);
+        for (String fileName : fileNames) {
+            var song = songRepository.findByFile(fileName);
+            if (song.isEmpty()) {
+                fileAdapter.delete(fileName);
+                nbDeleted++;
+            }
+        }
 
-        if (filesToRemove.isEmpty()) {
+        if (nbDeleted == 0) {
             log.info("No files to remove.");
         } else {
-            log.info("Removed {} files from a total of {}.", filesToRemove.size(), fileNames.size());
+            log.info("Removed {} files from a total of {}.", nbDeleted, fileNames.size());
         }
     }
 }
