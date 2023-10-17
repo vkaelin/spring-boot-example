@@ -8,6 +8,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface SongMapper {
+    SongDto toSongDto(Song song);
+
     SearchedSongDto toSearchSongDto(Song song);
 
     List<SearchedSongDto> toSearchSongDto(List<Song> songs);
