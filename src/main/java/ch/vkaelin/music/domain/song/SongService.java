@@ -17,10 +17,11 @@ import java.util.UUID;
 public class SongService {
     private final SongStorage songStorage;
     private final FileAdapter fileAdapter;
+    public static final String AUDIO_MPEG = "audio/mpeg";
 
     public Song createSong(NewSongRequest request, Artist artist)
             throws FileAdapterException, InvalidFileTypeException {
-        if (!Objects.equals(request.getFile().getContentType(), "audio/mpeg")) {
+        if (!Objects.equals(request.getFile().getContentType(), AUDIO_MPEG)) {
             throw new InvalidFileTypeException("File must be a mp3 file");
         }
 
