@@ -6,6 +6,7 @@ import ch.vkaelin.music.domain.file.FileAdapterException;
 import ch.vkaelin.music.domain.file.InvalidFileTypeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.util.List;
@@ -14,11 +15,13 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly=true)
 public class SongService {
     private final SongStorage songStorage;
     private final FileAdapter fileAdapter;
     public static final String AUDIO_MPEG = "audio/mpeg";
 
+    @Transactional
     public Song createSong(NewSongRequest request, Artist artist)
             throws FileAdapterException, InvalidFileTypeException {
         if (!Objects.equals(request.getFile().getContentType(), AUDIO_MPEG)) {
@@ -47,6 +50,7 @@ public class SongService {
         return fileAdapter.load(fileName);
     }
 
+    @Transactional
     public void deleteSong(Song song) {
         fileAdapter.delete(song.getFile());
     }

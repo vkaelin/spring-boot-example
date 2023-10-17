@@ -10,9 +10,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly=true)
 public class AuthenticationService {
     private final ArtistStorage artistStorage;
     private final UserStorage userStorage;
@@ -20,6 +22,7 @@ public class AuthenticationService {
     private final JwtAdapter jwtService;
     private final AuthenticationManager authenticationManager;
 
+    @Transactional
     public String register(SignUpRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
