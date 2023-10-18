@@ -1,0 +1,41 @@
+config:
+  file:
+    base-path: "./songs"
+  jobs:
+    clear-songs:
+      cron: "*/5 * * * *" # every 5 minutes, see https://crontab.guru
+  jwt:
+    private:
+      key: classpath:app.key
+    public:
+      key: classpath:app.pub
+    expiration: 86400 # in seconds
+org:
+  jobrunr:
+    background-job-server:
+      enabled: true
+    dashboard:
+      enabled: true
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5332/music
+    username: vkaelin
+    password: password
+    driver-class-name: org.postgresql.Driver
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  api-docs.path: /api-docs
