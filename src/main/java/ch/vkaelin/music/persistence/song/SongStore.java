@@ -23,14 +23,14 @@ public class SongStore implements SongStorage {
     @Override
     public Optional<Song> findById(Integer id) {
         Optional<SongEntity> songEntity = songRepository.findById(id);
-        return songEntity.map(songEntityMapper::toDomainWithoutArtist);
+        return songEntity.map(songEntityMapper::toDomain);
     }
 
     @Override
     public List<Song> search(String search) {
         List<SongEntity> songEntities = songRepository.search(search);
         return songEntities.stream()
-                .map(songEntityMapper::toDomain)
+                .map(songEntityMapper::toDomainWithArtist)
                 .toList();
     }
 }

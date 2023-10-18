@@ -17,7 +17,7 @@ public class ArtistStore implements ArtistStorage {
     @Override
     public Optional<Artist> findById(Integer id) {
         return artistRepository.findById(id)
-                .map(artistEntityMapper::toDomain);
+                .map(artistEntityMapper::toDomainWithSongs);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ArtistStore implements ArtistStorage {
     @Override
     public List<Artist> searchArtists(String search) {
         return artistRepository.search(search).stream()
-                .map(artistEntityMapper::toDomain)
+                .map(artistEntityMapper::toDomainWithSongs)
                 .toList();
     }
 
