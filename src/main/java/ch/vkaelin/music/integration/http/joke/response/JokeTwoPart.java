@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class JokeTwoPart extends JokeResponse {
-    String setup;
-    String delivery;
+    private String setup;
+    private String delivery;
 }

@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class Flags {
-    boolean nsfw;
-    boolean religious;
-    boolean political;
-    boolean racist;
-    boolean sexist;
-    boolean explicit;
+    private boolean nsfw;
+    private boolean religious;
+    private boolean political;
+    private boolean racist;
+    private boolean sexist;
+    private boolean explicit;
 }
