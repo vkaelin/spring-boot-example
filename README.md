@@ -1,6 +1,4 @@
-# Training Spring Boot - Music Library API
-
-[Jira Ticket link](https://openwt.atlassian.net/browse/BEACH-9558)
+# Music Library API
 
 ## Introduction
 A client wants you to develop a basic music library API, where a user can upload a song, list available songs etc... He also wants an admin API to manage users etc...
@@ -52,6 +50,11 @@ Want to go further?
 # Start the docker container for the PostgreSQL database and the smtp4dev server
 docker-compose up -d
 
+# Create the JWT secrets (example with openssl)
+cd src/main/resources
+openssl genpkey -algorithm RSA -outform PEM -out app.key # Generate the private key
+openssl rsa -pubout -in app.key -out app.pub # Generate the public key
+
 # Install all dependencies and build the project
 mvn clean install
 
@@ -75,3 +78,4 @@ Then, you can access the API in your browser:
 ## More information
 - Songs files are stored in a `./songs` folder (gitignored), this is configurable in the `application.yml` file
 - Other information can be configured in the `application.yml` file under the `config` root key, for example the jwt key paths, its expiration time or the cron expressions for the JobRunr jobs
+- If you want examples of the needed JWT secrets, you can find it [here](https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/jwt/login/src/main/resources)
