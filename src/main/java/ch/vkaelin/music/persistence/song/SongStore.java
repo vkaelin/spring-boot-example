@@ -12,24 +12,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SongStore implements SongStorage {
     private final SongRepository songRepository;
+    private final SongEntityMapper songEntityMapper;
 
     @Override
     public Song save(Song song) {
-        SongEntity songEntity = SongEntity.from(song);
-        return songRepository.save(songEntity).fromThis(false);
+        SongEntity songEntity = songEntityMapper.toEntity(song);
+        return songEntityMapper.toDomain(songRepository.save(songEntity));
     }
 
     @Override
     public Optional<Song> findById(Integer id) {
         Optional<SongEntity> songEntity = songRepository.findById(id);
-        return songEntity.map(s -> s.fromThis(false));
+        return songEntity.map(songEntityMapper::toDomainWithoutArtist);
     }
 
     @Override
     public List<Song> search(String search) {
         List<SongEntity> songEntities = songRepository.search(search);
         return songEntities.stream()
-                .map(s -> s.fromThis(true))
+                .map(songEntityMapper::toDomain)
                 .toList();
     }
 }

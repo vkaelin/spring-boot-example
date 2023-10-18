@@ -1,6 +1,5 @@
 package ch.vkaelin.music.persistence.song;
 
-import ch.vkaelin.music.domain.song.Song;
 import ch.vkaelin.music.persistence.AbstractEntity;
 import ch.vkaelin.music.persistence.artist.ArtistEntity;
 import jakarta.persistence.CascadeType;
@@ -36,28 +35,4 @@ public class SongEntity extends AbstractEntity {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE})
     @JoinColumn(name = "artist_id")
     private ArtistEntity artist;
-
-    public static SongEntity from(Song song) {
-        return SongEntity.builder()
-                .id(song.getId())
-                .name(song.getName())
-                .file(song.getFile())
-                .genre(song.getGenre())
-                .artist(ArtistEntity.from(song.getArtist()))
-                .build();
-    }
-
-    public Song fromThis(boolean withArtist) {
-        var song = Song.builder()
-                .id(getId())
-                .name(getName())
-                .file(getFile())
-                .genre(getGenre());
-
-        if (withArtist) {
-            song.artist(getArtist().fromThis());
-        }
-
-        return song.build();
-    }
 }

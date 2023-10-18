@@ -1,7 +1,6 @@
 package ch.vkaelin.music.persistence.user;
 
 import ch.vkaelin.music.domain.user.Role;
-import ch.vkaelin.music.domain.user.User;
 import ch.vkaelin.music.persistence.AbstractEntity;
 import ch.vkaelin.music.persistence.artist.ArtistEntity;
 import jakarta.persistence.CascadeType;
@@ -37,22 +36,4 @@ public class UserEntity extends AbstractEntity {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private ArtistEntity artist;
-
-    public static UserEntity from(User user) {
-        return UserEntity.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .role(user.getRole())
-                .build();
-    }
-
-    public User fromThis() {
-        return User.builder()
-                .id(getId())
-                .username(getUsername())
-                .password(getPassword())
-                .role(getRole())
-                .build();
-    }
 }

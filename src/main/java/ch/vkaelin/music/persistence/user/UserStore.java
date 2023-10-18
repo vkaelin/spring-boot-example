@@ -11,16 +11,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserStore implements UserStorage {
     private final UserRepository userRepository;
+    private final UserEntityMapper userEntityMapper;
 
     @Override
     public Optional<User> findByUsername(String username) {
         var userEntity = userRepository.findByUsername(username);
-        return userEntity.map(UserEntity::fromThis);
+        return userEntity.map(userEntityMapper::toDomain);
     }
 
     @Override
     public void save(User user) {
-        var userEntity = UserEntity.from(user);
+        var userEntity = userEntityMapper.toEntity(user);
         userRepository.save(userEntity);
     }
 }

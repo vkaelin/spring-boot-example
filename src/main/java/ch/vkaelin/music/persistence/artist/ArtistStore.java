@@ -12,29 +12,31 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArtistStore implements ArtistStorage {
     private final ArtistRepository artistRepository;
+    private final ArtistEntityMapper artistEntityMapper;
 
     @Override
     public Optional<Artist> findById(Integer id) {
         return artistRepository.findById(id)
-                .map(ArtistEntity::fromThis);
+                .map(artistEntityMapper::toDomain);
     }
 
     @Override
     public Optional<Artist> findByUsername(String username) {
         return artistRepository.findByUserUsername(username)
-                .map(ArtistEntity::fromThis);
+                .map(artistEntityMapper::toDomain);
     }
 
     @Override
     public void save(Artist artist) {
-        ArtistEntity artistEntity = ArtistEntity.from(artist);
-        artistRepository.save(artistEntity);
+        ArtistEntity artistEntity = artistEntityMapper.toEntity(artist);
+        // Had to flush here to get the error in the transaction if the username is already taken
+        artistRepository.saveAndFlush(artistEntity);
     }
 
     @Override
     public List<Artist> searchArtists(String search) {
         return artistRepository.search(search).stream()
-                .map(ArtistEntity::fromThis)
+                .map(artistEntityMapper::toDomain)
                 .toList();
     }
 
