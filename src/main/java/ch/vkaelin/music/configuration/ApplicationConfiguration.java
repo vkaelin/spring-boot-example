@@ -49,15 +49,17 @@ public class ApplicationConfiguration {
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository) {
         if (userRepository.findByUsername("admin").isPresent()) {
-            return args -> {};
+            return args -> {
+            };
         }
 
         return args -> userRepository.save(
-                UserEntity.builder()
-                        .username("admin")
-                        .password(passwordEncoder().encode("password"))
-                        .role(Role.ADMIN)
-                        .build()
+                new UserEntity(
+                        "admin",
+                        passwordEncoder().encode("password"),
+                        Role.ADMIN,
+                        null
+                )
         );
     }
 }
