@@ -48,10 +48,10 @@ class ArtistControllerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-        
+
         UserEntity user = new UserEntity(
                 "bob_user",
-               "1234",
+                "1234",
                 Role.ARTIST,
                 null
         );
