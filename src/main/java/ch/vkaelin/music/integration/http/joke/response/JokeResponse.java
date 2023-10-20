@@ -4,11 +4,11 @@ import lombok.Getter;
 
 @Getter
 public abstract class JokeResponse {
-    boolean error;
-    String category;
-    String type;
-    Flags flags;
-    int id;
-    boolean safe;
-    String lang;
+    private boolean error;
+    private String category;
+    private String type;
+    private Flags flags;
+    private int id;
+    private boolean safe;
+    private String lang;
 }

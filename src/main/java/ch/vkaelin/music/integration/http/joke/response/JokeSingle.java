@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class JokeSingle extends JokeResponse {
-    String joke;
+    private String joke;
 }

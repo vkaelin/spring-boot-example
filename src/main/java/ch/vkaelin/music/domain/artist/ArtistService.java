@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Transactional(readOnly=true)
+@Transactional(readOnly = true)
 public class ArtistService {
     private final ArtistStorage artistStorage;
     private final SongService songService;

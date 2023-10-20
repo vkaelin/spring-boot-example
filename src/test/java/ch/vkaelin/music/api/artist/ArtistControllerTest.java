@@ -48,17 +48,20 @@ class ArtistControllerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-        
-        UserEntity user = UserEntity.builder()
-                .username("bob_user")
-                .password("1234")
-                .role(Role.ARTIST)
-                .build();
+
+        UserEntity user = new UserEntity(
+                "bob_user",
+                "1234",
+                Role.ARTIST,
+                null
+        );
+
         artistRepository.save(
-                ArtistEntity.builder()
-                        .artistName("Bob")
-                        .user(user)
-                        .build()
+                new ArtistEntity(
+                        "Bob",
+                        user,
+                        null
+                )
         );
     }
 

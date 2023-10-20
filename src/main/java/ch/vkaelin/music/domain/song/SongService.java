@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-@Transactional(readOnly=true)
+@Transactional(readOnly = true)
 public class SongService {
     private final SongStorage songStorage;
     private final FileAdapter fileAdapter;

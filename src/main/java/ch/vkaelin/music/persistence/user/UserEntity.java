@@ -11,16 +11,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.Setter;
 
-@Data
-@SuperBuilder(toBuilder = true)
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "users")
 public class UserEntity extends AbstractEntity {

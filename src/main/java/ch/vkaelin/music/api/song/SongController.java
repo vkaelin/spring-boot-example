@@ -4,6 +4,7 @@ import ch.vkaelin.music.domain.artist.Artist;
 import ch.vkaelin.music.domain.artist.ArtistService;
 import ch.vkaelin.music.domain.song.Song;
 import ch.vkaelin.music.domain.song.SongService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +35,7 @@ public class SongController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ARTIST')")
     public SongDto uploadSong(
-            @ModelAttribute NewSongRequestDto request,
+            @Valid @ModelAttribute NewSongRequestDto request,
             Authentication authentication
     ) {
         Artist artist = artistService.findByUsername(authentication.getName());

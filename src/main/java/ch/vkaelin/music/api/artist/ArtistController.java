@@ -20,6 +20,7 @@ import java.util.List;
 public class ArtistController {
     private final ArtistMapper mapper;
     private final ArtistService service;
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<SearchedArtistDto> searchArtists(@RequestParam(defaultValue = "") String search) {
